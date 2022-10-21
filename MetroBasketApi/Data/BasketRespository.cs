@@ -37,7 +37,18 @@ namespace MetroBasketApi.Data
 
         public async Task<Basket> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var basket = new Basket();
+            var sqlBasket = "SELECT b.Id, b.Pays_Vat, b.Customer FROM Baskets b WHERE Id = @Id";
+            var sqlArticles = "SELECT ar.Price, ar.Name, ar.Id, ar.Basket_Id as BasketId from Articles ar Where Basket_Id =@Id";
+            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var basketData = await connection.QueryAsync<Basket>(sqlBasket, new { Id = id });
+                var articlesData = await connection.QueryAsync<Article>(sqlArticles, new { Id = id });
+                basket = basketData.First();
+                basket.Articles = articlesData.ToList();
+                return basket;
+            }
         }
 
         public async Task<int> UpdateAsync(Basket entity)

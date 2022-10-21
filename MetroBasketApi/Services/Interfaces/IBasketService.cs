@@ -6,5 +6,6 @@ namespace MetroBasketApi.Services.Interfaces
     {
         Task<int> CreateBasket(string customer, bool paysVAT);
         Task<Basket> GetBasket(int id);
+        Task<int> AddArticle(string name, double price, int basketId);
     }
 }

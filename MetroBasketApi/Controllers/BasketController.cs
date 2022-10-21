@@ -49,5 +49,38 @@ namespace MetroBasketApi.Controllers
             }
             return new ObjectResult(basket);
         }
+
+        [HttpPut]
+        [Route("/baskets/{id}")]
+        public virtual async Task<IActionResult> Basket(string status)
+        {
+            //var basket = new Basket();
+            //try
+            //{
+            //    basket = await basketSevice.GetBasket(id);
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.LogError("GET Basket - " + ex.Message);
+            //}
+            return new ObjectResult(null);
+        }
+
+
+        [HttpPost]
+        [Route("/baskets/{id}/article-line")]
+        public virtual async Task<IActionResult> Article(int id, string name, double price)
+        {
+            var articleId = 0;
+            try
+            {
+                articleId = await basketSevice.AddArticle(name, price, id);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("POST Article - " + ex.Message);
+            }
+            return new ObjectResult(articleId);
+        }
     }
 }

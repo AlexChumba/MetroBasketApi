@@ -1,5 +1,6 @@
 using MetroBasketApi.Dapper.Interfaces;
 using MetroBasketApi.Data;
+using MetroBasketApi.Data.Interfaces;
 using MetroBasketApi.Services;
 using MetroBasketApi.Services.Interfaces;
 
@@ -9,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IBasketService, BasketService>();
 builder.Services.AddTransient<IBasketRepository, BasketRespository>();
+builder.Services.AddTransient<IArticleRepository, ArticleRepository>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
