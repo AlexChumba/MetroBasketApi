@@ -1,4 +1,5 @@
 using MetroBasketApi.Models;
+using MetroBasketApi.Models.Enums;
 using MetroBasketApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
@@ -22,16 +23,16 @@ namespace MetroBasketApi.Controllers
         [Route("/baskets")]
         public virtual async Task<IActionResult> Basket( string customer, bool paysVAT)
         {
-            var basket = 0;
+            var basketId = 0;
             try
             {
-               basket = await basketSevice.CreateBasket(customer, paysVAT);
+               basketId = await basketSevice.CreateBasket(customer, paysVAT);
             }
             catch (Exception ex)
             {
                 logger.LogError("POST Basket - " + ex.Message);
             }
-            return new ObjectResult(basket);
+            return new ObjectResult(basketId);
         }
 
         [HttpGet]
@@ -52,18 +53,26 @@ namespace MetroBasketApi.Controllers
 
         [HttpPut]
         [Route("/baskets/{id}")]
-        public virtual async Task<IActionResult> Basket(string status)
+        public virtual async Task<IActionResult> Basket(int id, string status)
         {
-            //var basket = new Basket();
-            //try
-            //{
-            //    basket = await basketSevice.GetBasket(id);
-            //}
-            //catch (Exception ex)
-            //{
-            //    logger.LogError("GET Basket - " + ex.Message);
-            //}
-            return new ObjectResult(null);
+            var basket = 0;
+            BasketStatusEnum basketStatus = BasketStatusEnum.Open;
+            try
+            {
+                if (status.ToLower() == nameof(BasketStatusEnum.Closed).ToLower())
+                {
+                    basketStatus = BasketStatusEnum.Closed;
+                } else if (status.ToLower() != nameof(BasketStatusEnum.Open).ToLower())
+                {
+                    return new ObjectResult(basket);
+                }
+                basket = await basketSevice.UpdateStatus(id, basketStatus);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("PUT Basket - " + ex.Message);
+            }
+            return new ObjectResult(basket);
         }
 
 

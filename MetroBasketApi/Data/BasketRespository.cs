@@ -50,7 +50,16 @@ namespace MetroBasketApi.Data
                 return basket;
             }
         }
-
+        public async Task<int> UpdateStatus(int status, int Id)
+        {
+            var sql = "Update Baskets SET Status = @status where Id = @Id";
+            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var result = await connection.ExecuteAsync(sql, new {status, Id});
+                return result;
+            }
+        }
         public async Task<int> UpdateAsync(Basket entity)
         {
             throw new NotImplementedException();

@@ -1,6 +1,20 @@
-﻿CREATE TABLE [dbo].[Articles]
+﻿CREATE TABLE [dbo].[Articles](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](max) NULL,
+	[Price] [numeric](18, 0) NULL,
+	[Basket_Id] [int] NULL,
+ CONSTRAINT [PK__Articles__3214EC07CDE8C729] PRIMARY KEY CLUSTERED 
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
-    [Name] VARCHAR(MAX) NULL, 
-    [Price] NUMERIC NULL
-)
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Articles]  WITH CHECK ADD  CONSTRAINT [FK_Articles_Baskets] FOREIGN KEY([Basket_Id])
+REFERENCES [dbo].[Baskets] ([Id])
+GO
+
+ALTER TABLE [dbo].[Articles] CHECK CONSTRAINT [FK_Articles_Baskets]
+GO
+
+

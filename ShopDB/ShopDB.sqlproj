@@ -59,10 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Baskets.sql" />
-    <Build Include="Customers.sql" />
     <Build Include="Articles.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="PopulateTablesScript.sql" />
   </ItemGroup>
 </Project>
